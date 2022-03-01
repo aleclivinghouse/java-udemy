@@ -7,6 +7,7 @@ import com.springboot.blog.entity.Post;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.springboot.blog.exception.ResourceNotFoundException;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -28,6 +29,12 @@ public class PostServiceImpl implements PostService{
     @Override public List<PostDto> getAllPosts(){
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+    }
+
+    @Override
+    public PostDto getPostById(long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        return mapToDTO(post);
     }
 
     private PostDto mapToDTO(Post post){

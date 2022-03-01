@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -29,6 +30,12 @@ public class PostController {
     public List<PostDto> getAllPosts(){
         return postService.getAllPosts();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id){
+        return ResponseEntity.ok(postService.getPostById(id));
+    }
+
 
 
 }
